@@ -45,6 +45,81 @@
       console.log(obj1.val);
       console.log(obj2.val);
 
+
+
+      function add(a, b){
+        return a + b;
+      }
+
+
+      var f1 = function(a){
+        return a * a;
+      };
+      console.log(f1);
+
+      var f2 = add;
+      console.log(f2);
+
+      // 일급 함수
+      function f3(f){
+        return f();
+      }
+
+      console.log( f3( function(){
+                return 10;
+              } )
+      );
+
+      console.log( f3( function(){
+                return 20;
+              } )
+      );
+
+      
+      // add maker
+      function add_maker(a){
+        return function(b){
+          return  a + b;
+        }
+      }
+
+      var add10 = add_maker(10);
+      console.log('add10(20):', add10(20));
+
+      // function add_maker2(c){
+      //   return {
+      //     addition : function(b){
+      //       return  c + b;
+      //     },
+      //     get_c : function(){
+      //       return c;
+      //     }
+      //   }
+      // }
+      //
+      // var ad2 = add_maker2(2);
+      // var resultAddition = ad2.addition(10);
+      // console.log('resultAddtion: ', resultAddition);
+      //
+      // console.log(ad2.get_c());
+
+
+      function f4(f1, f2, f3){
+        return f3( f1() + f2() );
+      }
+
+      console.log( f4(
+              function(){
+                return 1;
+              },
+              function(){
+                return 2;
+              },
+              function(a){
+                return a * a;
+              }
+      ) );
+
     </script>
   </body>
 </html>
