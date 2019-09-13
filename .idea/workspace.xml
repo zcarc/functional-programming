@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c15336fc-27e7-4195-8c1a-bd0f220cec78" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/1. 함수형 프로그래밍 개요 1 - (정의, 순수 함수).html" beforeDir="false" afterPath="$PROJECT_DIR$/1. 함수형 프로그래밍 개요 1 - (정의, 순수 함수).html" afterDir="false" />
     </list>
@@ -44,7 +43,14 @@
       <option name="presentableId" value="Default" />
       <updated>1567946553319</updated>
       <workItem from="1567946554480" duration="2333000" />
-      <workItem from="1567981387626" duration="53000" />
+      <workItem from="1567981387626" duration="658000" />
+      <workItem from="1568377244338" duration="22000" />
+      <workItem from="1568377297112" duration="16000" />
+      <workItem from="1568377404457" duration="2000" />
+      <workItem from="1568377470114" duration="54000" />
+      <workItem from="1568377540489" duration="39000" />
+      <workItem from="1568377593130" duration="64000" />
+      <workItem from="1568377861891" duration="10000" />
     </task>
     <servers />
   </component>
@@ -56,7 +62,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
