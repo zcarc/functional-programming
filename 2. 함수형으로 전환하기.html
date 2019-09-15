@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    var users = [
+
+        { id: 1, name : 'ID', age : 36},
+        { id: 2, name : 'BJ', age : 32},
+        { id: 3, name : 'JM', age : 32},
+        { id: 4, name : 'PJ', age : 27},
+        { id: 5, name : 'HA', age : 25},
+        { id: 6, name : 'JE', age : 26},
+        { id: 7, name : 'JI', age : 31},
+        { id: 8, name : 'MP', age : 23}
+    ];
+
+
+    // 1. 30세 이상인 users만 뽑는다.
+    var temp_users = [];
+    for(var i = 0; i < users.length; i++){
+        if( users[i].age >= 30 ) {
+            temp_users.push(users[i]);
+        }
+    }
+
+    console.log(temp_users);
+
+
+    // 2. 30세 이상인 users의 names를 수집한다.
+    var temp_names = [];
+    for(var i = 0; i < temp_users.length; i++) {
+        temp_names.push(temp_users[i].name);
+    }
+
+    console.log(temp_names);
+
+
+    // 3. 30세 미만인 users만 뽑는다.
+    var temp_users = [];
+    for(var i = 0; i < users.length; i++) {
+        if(users[i].age < 30) {
+            temp_users.push(users[i]);
+        }
+    }
+
+    console.log(temp_users);
+
+
+    // 4. 30세 미만인 users의 age를 수집한다.
+    var temp_ages = [];
+    for(var i = 0; i < temp_users.length; i++) {
+        temp_ages.push(temp_users[i].age);
+    }
+
+    console.log(temp_ages);
+
+
+    // 2. _filter, _map으로 리팩토링
+    function _filter(array, predicate) {
+
+        var new_array = [];
+
+        for(var i = 0; i < array.length; i++){
+
+            // if가 true가 되는 조건은 predicate 함수에서 정한다.
+            if( predicate( array[i] ) ) {
+                new_array.push( array[i] );
+            }
+        }
+
+        return new_array;
+    }
+
+
+    // 1. 30세 이상인 users만 뽑는다.
+    var temp_users = _filter(users, function(user) {
+
+        // user 의 age가 30이상일 때만 true를 반환한다.
+        return user.age >= 30;
+    });
+
+    console.log(temp_users);
+
+
+    // 2. 30세 이상인 users의 names를 수집한다.
+    function _map(array, predicate){
+
+        var new_array = [];
+
+        for(var i = 0; i < array.length; i++) {
+
+            // 어떤 객체에 접근하는 것은 predicate 함수가 처리한다.
+            // 즉, 여기서 name에 접근하는 것은 _map 함수에서 직접적으로 처리하지 않는다.
+            // 그렇게 된다면 param_users라는 객체에 특정 객체의 이름에 종속적이지 않게 된다.
+            // 예를 들어 { id : 53 } 객체에서 id라는 이름을 갖는 객체가 있을 경우와
+            // { phoneNumber : 01012345678 } 객체에서 phoneNumber 라는 이름을 갖는 객체가 매개변수로 들어오고
+            // 해당 객체 이름을 _map() 함수에서 직접 접근 한다면 특정 객체의 이름에 종속적이기 때문에
+            // 콜백함수에서 그 특정 객체에 대한 이름을 처리하게 한다.
+            new_array.push( predicate( array[i] ) );
+        }
+
+        return new_array;
+    }
+
+    var temp_names = _map(temp_users, function(user){
+
+        // 객체의 이름을 참조해서 반환
+       return user.name;
+    });
+
+    console.log(temp_names);
+
+
+    // 3. 30세 미만인 users만 뽑는다.
+    var temp_users = _filter(users, function predicate(user){
+       return user.age < 30;
+    });
+
+    console.log(temp_users);
+
+
+    // 4. 30세 미만인 users의 age를 수집한다.
+    var temp_ages = _map(temp_users, function(user){
+        return user.age;
+    });
+
+    console.log(temp_ages);
+
+
+    // _filter에 어떤 배열을 넣어도 된다.
+    console.log(
+
+        _filter([1,2,3,4,5], function(val){
+            return val % 2;
+        })
+
+    );
+
+    console.log(
+
+        _filter([1,2,3,4,5], function(val){
+            return !(val % 2);
+        })
+
+    );
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
