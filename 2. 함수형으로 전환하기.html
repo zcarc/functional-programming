@@ -162,6 +162,223 @@
     });
 
 
+    // 3. 커링
+    // - _curry, _curryr
+
+    // a를 먼저 받고 b를 그 다음에 받고
+    // 받아둔 fn을 나중에 실행된다. (add 변수처럼 _curry(function(){}) 함수가 호출되었다면)
+    function _curry(fn) {
+        return function(a) {
+
+            return function(b) {
+
+                return fn(a,b);
+            }
+        }
+
+    }
+
+    var add = _curry(function(a,b){
+        return a + b;
+    });
+
+    console. log( 'add: ', add);
+
+    // 여기서 add(10) 이렇게 호출하게 되면
+
+    // add는 아래와 같은 상태이고
+
+    /*
+        function(a) {
+
+            return function(b) {
+
+                return fn(a,b);
+            }
+        }
+
+
+    */
+
+    // 그래서 여기 function(a) 이 부분에 10이 들어가게 된다.
+    // 그리고 또 다시 함수를 리턴하게 된다.
+    // 물론 가장 처음에 add를 정의할 때의 함수 fn은 클로저로 남아있고
+    // 여기서의 add(10) 의 a = 10 부분도 클로저로 남아있게 된다.
+
+    // 그래서 add(10) 부분을 실행하면
+    // 아래를 리턴받게 되고
+    /*
+        function(b) {
+
+            return fn(a,b);
+        }
+     */
+
+    var add10 = add(10);
+
+
+    // 여기서 add10(5)를 하게 되면
+    // 그때 function(b) 이 부분에 5가 들어가고
+    // 가장 처음에 정의한 fn(a,b) 함수에
+    // a = 10, b = 5가 들어가게 된다.
+    console.log( add10(5) );
+
+    console.log(add(5)(6));
+
+
+    // 아래와 같이 한번에 인자를 전달하게 될 경우 function(b){}를 리턴하게 된다.
+    // 이유는 function(a){}를 반환하고 인자를 전달할 때 그 인자를 function(a){}가 받고
+    // 그 function(a){}는 function(b){}를 반환하기 때문이고
+    // 결국에는 function(b){}에 인자를 전달해야 최종적으로 가장 처음에 전달했던 함수를 호출할 수 있다.
+    console.log( add(3,4) );
+
+
+    // 인자를 한번에 두개를 주는 방법은 아래와 같다.
+    function __curry(fn) {
+
+        return function(a, b) {
+
+            // 현재 이 함수의 인자가 2개 라면 바로 "fn(a,b)"를 리턴한다.
+            if(arguments.length === 2) {
+                return  fn(a, b);
+            }
+
+            return function(b) {
+
+                return fn(a,b);
+            }
+        }
+
+    }
+
+
+    var add = __curry(function(a,b){
+        return a + b;
+    })
+
+    console.log('add:', add);
+
+    console.log( add(6,8) );
+
+    var add9 = add(9);
+
+    console.log( add9(6) );
+
+
+    // 삼항 연산자로 변경
+    function ___curry(fn) {
+        return function(a, b) {
+            // 현재 이 함수의 인자가 2개 라면 바로 "fn(a,b)"를 리턴한다.
+            return arguments.length === 2 ? fn(a, b) : function(b) { return fn(a,b); }
+        }
+    }
+
+
+    var add = ___curry(function(a,b){
+        return a + b;
+    })
+
+    console.log('add:', add);
+
+    console.log( add(8,11) );
+
+    var add7 = add(2);
+    console.log( add7(5) );
+
+
+    var sub = ___curry(function(a, b){
+        return a - b;
+    });
+
+
+    console.log( sub(10, 5) );
+
+    var sub10 = sub(10);
+    console.log( sub10(5) );
+
+
+    // 오른쪽에서부터 인자를 적용하는 _curryr (right)를 생성한다.
+    function ___curryr(fn) {
+        return function(a, b) {
+            // fn() 함수의 인자 위치를 바꿔준다.
+            return arguments.length === 2 ? fn(a, b) : function(b) { return fn(b, a); }
+        }
+    }
+
+    var sub = ___curryr(function(a, b){
+        return a - b;
+    });
+
+    var sub10 = sub(10);
+    // 5 - 10
+    console.log( sub10(5) );
+
+
+
+    // 2. _get 만들어 좀 더 간단하게 하기
+    function _get(obj, key) {
+        // 여기서 null은
+        // null == undefined 로 했을 경우 true 이다.
+        // null === undefined인 경우는 false 이다.
+        return obj == null ? undefined : obj[key];
+    }
+
+    var user1 = users[0];
+    console.log(user1['name']);
+    console.log(users[0]['name']);
+    console.log(users[0].name);
+    console.log(_get(user1, 'name'));
+
+
+    // 이렇게 users[10]은 없는데 name에 접근하면 에러가 난다.
+    //console.log(users[10].name);
+
+    // 만든 _get()함수를 사용해서 호출해본다.
+    // 이 경우에는 에러가 나지 않는다.
+    console.log( _get(users[10], 'name') );
+
+
+    // 아까 배웠던 curryr를 get함수에 적용
+    var _get = ___curryr(function(obj, key){
+        return obj == null ? undefined : obj[key];
+    });
+
+    // 이렇게 먼저 가장 처음에 _get()함수에 'name'을 주게 되면
+    // function (a, b) 의 a 에 들어가게 된다.
+    var get_name = _get('name');
+    console.log(get_name);
+
+    // 그리고 function (b) 를 리턴 받은 get_name 에 오브젝트를 전달하면
+    // function(b) { return fn(b, a); }
+    // 이 부분이 실행되고
+    // 마지막에 오브젝트를 받았으니 fn(b, a) 에서 b에는 user[0]가 들어가고
+    // a에는 'name'이 들어가게 된다.
+    console.log( get_name(users[0]) );
+
+    // 이런식으로  get_name 이라는 함수를 만들고 계속 재사용을 하는 것이다.
+    console.log( get_name(users[1]) );
+    console.log( get_name(users[2]) );
+
+
+
+
+
+    console.log(
+
+        _map( _filter(users, function predicate(user){ return user.age >= 30; }),
+            _get('name')
+            //function(user){ return user.age; }
+        )
+    );
+
+    console.log(
+
+        _map( _filter(users, function predicate(user){ return user.age < 30; }), _get('name'))
+    );
+
+
+
+
 
 </script>
 
