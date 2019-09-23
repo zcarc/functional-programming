@@ -15,7 +15,7 @@ function _filter(array, predicate) {
 }
 
 
-function _map(array, predicate){
+function _map(array, mapper){
 
     var new_array = [];
 
@@ -27,7 +27,7 @@ function _map(array, predicate){
     // 해당 객체 이름을 _map() 함수에서 직접 접근 한다면 특정 객체의 이름에 종속적이기 때문에
     // 콜백함수에서 그 특정 객체에 대한 이름을 처리하게 한다.
     _each(array, function(param) {
-        new_array.push( predicate(param) );
+        new_array.push( mapper(param) );
     });
 
 

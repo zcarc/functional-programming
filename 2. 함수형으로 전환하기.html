@@ -121,6 +121,48 @@
 
 
 
+    // 2. 외부 다형성
+    // - array_like, arguments, document.querySelectorAll()
+    console.log(
+        [1,2,3,4].map(function(val) {
+            return val * 2;
+        })
+    );
+
+
+    // 배열에서 제공하는 filter 메소드는
+    // return이 true라면 해당 val을 리턴한다.
+    console.log(
+        [1,2,3,4].filter(function(val) {
+            return val % 2;
+        })
+    );
+
+    // map, filter가 있는데도 만들어서 사용하는 이유는
+    // map, filter는 함수가 아닌 배열에 한정적인 메소드이기 때문이다.
+
+
+    console.log(document.querySelectorAll('*'));
+
+    console.log(
+
+        _map(document.querySelectorAll('*'), function(node) {
+            return node.nodeName;
+        })
+
+    );
+
+
+
+    // 3. 내부 다형성
+    //  - predi. iter, mapper
+
+    _map([1,2,3,4], function(v) {
+        return v + 10;
+    });
+
+
+
 </script>
 
 </body>
