@@ -42,3 +42,67 @@ function _each(list, iterator) {
     }
     return list;
 }
+
+
+// a를 먼저 받고 b를 그 다음에 받고
+// 받아둔 fn을 나중에 실행된다. (add 변수처럼 _curry(function(){}) 함수가 호출되었다면)
+function _curry(fn) {
+    return function(a) {
+
+        return function(b) {
+
+            return fn(a,b);
+        }
+    }
+
+}
+
+
+// 인자를 한번에 두개를 주는 방법은 아래와 같다.
+function __curry(fn) {
+
+    return function(a, b) {
+
+        // 현재 이 함수의 인자가 2개 라면 바로 "fn(a,b)"를 리턴한다.
+        if(arguments.length === 2) {
+            return  fn(a, b);
+        }
+
+        return function(b) {
+
+            return fn(a,b);
+        }
+    }
+
+}
+
+
+
+// 삼항 연산자로 변경
+function ___curry(fn) {
+    return function(a, b) {
+        // 현재 이 함수의 인자가 2개 라면 바로 "fn(a,b)"를 리턴한다.
+        return arguments.length === 2 ? fn(a, b) : function(b) { return fn(a,b); }
+    }
+}
+
+
+
+// 오른쪽에서부터 인자를 적용하는 _curryr (right)를 생성한다.
+function ___curryr(fn) {
+    return function(a, b) {
+        // fn() 함수의 인자 위치를 바꿔준다.
+        return arguments.length === 2 ? fn(a, b) : function(b) { return fn(b, a); }
+    }
+}
+
+
+
+function _get(obj, key) {
+    // 여기서 null은
+    // null == undefined 로 했을 경우 true 이다.
+    // null === undefined인 경우는 false 이다.
+    return obj == null ? undefined : obj[key];
+}
+
+
